@@ -1,0 +1,7 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "go build -o ./tmp/main app/entrypoint/local/main.go"
+bin = "tmp/main"
+include_dir = ["app"]

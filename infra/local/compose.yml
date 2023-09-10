@@ -1,0 +1,15 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./Server.Dockerfile
+    expose:
+      - 9000
+    volumes:
+      - ../..:/server
+      - ./gocache:/gocache
+    # env_file:
+    # - ./.env
+    environment:
+      - GOCACHE=/gocache
+    command: sh -c "cd /server && air"
