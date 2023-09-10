@@ -14,8 +14,11 @@ func init() {
 
 func run() error {
 	e := echo.New()
-	err := registry.RegisterServer(e)
+	s3cli, err := registry.RegisterMinio()
 	if err != nil {
+		return eu.Wrap(err)
+	}
+	if err := registry.RegisterServer(e, s3cli); err != nil {
 		eu.Wrap(err)
 	}
 	e.Logger.Fatal(e.Start("0.0.0.0:9000"))

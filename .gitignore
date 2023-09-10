@@ -1,2 +1,5 @@
 /tmp
 gocache
+/infra/local/minio/data/*
+!.gitkeep
+.env
