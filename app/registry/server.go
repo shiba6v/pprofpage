@@ -19,6 +19,7 @@ import (
 
 func RegisterServer(e *echo.Echo, s3cli *s3.Client) error {
 	bucketName := Getenv("BUCKET_NAME")
+	fmt.Println(bucketName)
 	storage := repository.NewObjectStorage(s3cli, bucketName)
 	r := controller.NewController(storage)
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
@@ -26,6 +27,7 @@ func RegisterServer(e *echo.Echo, s3cli *s3.Client) error {
 	}))
 	e.GET("/pprof/:id/", r.GetPProf)
 	e.GET("/pprof/:id/:key", r.GetPProf)
+	e.GET("/health", r.Health)
 	return nil
 }
 
@@ -59,13 +61,11 @@ func RegisterMinio() (*s3.Client, error) {
 
 func RegisterS3() (*s3.Client, error) {
 	ctx := context.Background()
-	accessKey := Getenv("AWS_ACCESS_KEY")
-	secretKey := Getenv("AWS_SECRET_KEY")
-	cred := credentials.NewStaticCredentialsProvider(accessKey, secretKey, "")
 	endpoint := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 		return aws.Endpoint{}, nil
 	})
-	cfg, err := config.LoadDefaultConfig(ctx, config.WithCredentialsProvider(cred), config.WithEndpointResolverWithOptions(endpoint))
+	// https://zenn.dev/papu_nika/articles/b8efdef1c87f65
+	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion("ap-northeast-1"), config.WithEndpointResolverWithOptions(endpoint))
 	if err != nil {
 		log.Fatalln(err)
 	}

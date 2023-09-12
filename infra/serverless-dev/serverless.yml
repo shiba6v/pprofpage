@@ -5,17 +5,19 @@ provider:
   name: aws
   stage: dev
   runtime: provided.al2
+  architecture: arm64
   region: ap-northeast-1
   apiName: ${self:service}-${self:provider.stage}
+  environment:
+    BUCKET_NAME: shiba6v-pprofpage-${self:provider.stage}
 
 functions:
   PProfPage:
-    handler: tmp/bootstrap
+    handler: bootstrap
     url: true
     timeout: 10
     memorySize: 128
     events:
       - http:
-          path: /api/{proxy+}
+          path: /{proxy+}
           method: any
-          #integration: lambda

@@ -1,7 +1,7 @@
 /tmp
 gocache
 /infra/local/minio/data/*
-/infra/serverless-dev/tmp
+/infra/serverless-dev/bootstrap
 !.gitkeep
 .env
 .serverless
