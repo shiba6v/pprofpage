@@ -11,6 +11,10 @@ generate_pprof:
 	go run misc/pprof-generator/main.go
 	go tool pprof -http=":8000" tmp/cpu.pprof 
 
+.PHONY: register_test
+register_test:
+	curl -X POST -F file=@tmp/sample.pprof ${PPROFPAGE_DEV_URL}/pprof/register
+
 # https://aws.amazon.com/jp/blogs/compute/migrating-aws-lambda-functions-from-the-go1-x-runtime-to-the-custom-runtime-on-amazon-linux-2/
 .PHONY: deploy
 deploy:

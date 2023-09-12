@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"io"
@@ -49,4 +50,25 @@ func (s ObjectStorage) GetObjectToTmp(ctx context.Context, key string) (string, 
 		return "", eu.Wrap(err)
 	}
 	return path, nil
+}
+
+func (s ObjectStorage) UploadObject(ctx context.Context, key string, b []byte) error {
+	key = CleansePath(key)
+	path := fmt.Sprintf("/tmp/%s", key)
+	newFile, err := os.Create(path)
+	if err != nil {
+		return eu.Wrap(err)
+	}
+	if _, err := io.Copy(newFile, bytes.NewReader(b)); err != nil {
+		return eu.Wrap(err)
+	}
+	_, err = s.s3cli.PutObject(ctx, &s3.PutObjectInput{
+		Bucket: aws.String(s.bucketName),
+		Key:    aws.String(key),
+		Body:   bytes.NewReader(b),
+	})
+	if err != nil {
+		return eu.Wrap(err)
+	}
+	return nil
 }

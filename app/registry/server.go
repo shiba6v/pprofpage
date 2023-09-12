@@ -19,7 +19,6 @@ import (
 
 func RegisterServer(e *echo.Echo, s3cli *s3.Client) error {
 	bucketName := Getenv("BUCKET_NAME")
-	fmt.Println(bucketName)
 	storage := repository.NewObjectStorage(s3cli, bucketName)
 	r := controller.NewController(storage)
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
@@ -27,6 +26,7 @@ func RegisterServer(e *echo.Echo, s3cli *s3.Client) error {
 	}))
 	e.GET("/pprof/:id/", r.GetPProf)
 	e.GET("/pprof/:id/:key", r.GetPProf)
+	e.POST("/pprof/register", r.RegisterPProf)
 	e.GET("/health", r.Health)
 	return nil
 }
