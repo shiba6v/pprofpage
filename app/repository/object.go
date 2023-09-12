@@ -36,6 +36,11 @@ func (s ObjectStorage) GetObjectToTmp(ctx context.Context, key string) (string, 
 		return "", eu.Wrap(err)
 	}
 	path := fmt.Sprintf("/tmp/%s", key)
+	_, err = os.Stat(path)
+	if !os.IsNotExist(err) {
+		// use cache
+		return path, nil
+	}
 	newFile, err := os.Create(path)
 	if err != nil {
 		return "", eu.Wrap(err)

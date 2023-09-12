@@ -56,3 +56,20 @@ func RegisterMinio() (*s3.Client, error) {
 	})
 	return client, nil
 }
+
+func RegisterS3() (*s3.Client, error) {
+	ctx := context.Background()
+	accessKey := Getenv("AWS_ACCESS_KEY")
+	secretKey := Getenv("AWS_SECRET_KEY")
+	cred := credentials.NewStaticCredentialsProvider(accessKey, secretKey, "")
+	endpoint := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
+		return aws.Endpoint{}, nil
+	})
+	cfg, err := config.LoadDefaultConfig(ctx, config.WithCredentialsProvider(cred), config.WithEndpointResolverWithOptions(endpoint))
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client := s3.NewFromConfig(cfg, func(options *s3.Options) {
+	})
+	return client, nil
+}

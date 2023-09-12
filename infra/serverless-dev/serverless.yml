@@ -1,0 +1,21 @@
+service: pprofpage
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  stage: dev
+  runtime: provided.al2
+  region: ap-northeast-1
+  apiName: ${self:service}-${self:provider.stage}
+
+functions:
+  PProfPage:
+    handler: tmp/bootstrap
+    url: true
+    timeout: 10
+    memorySize: 128
+    events:
+      - http:
+          path: /api/{proxy+}
+          method: any
+          #integration: lambda

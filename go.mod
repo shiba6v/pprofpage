@@ -3,6 +3,7 @@ module github.com/shiba6v/pprofpage
 go 1.21
 
 require (
+	github.com/aws/aws-lambda-go v1.41.0 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.21.0 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.4.13 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.18.39 // indirect
@@ -21,6 +22,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.15.6 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.21.5 // indirect
 	github.com/aws/smithy-go v1.14.2 // indirect
+	github.com/awslabs/aws-lambda-go-api-proxy v0.14.0 // indirect
 	github.com/chzyer/readline v1.5.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
