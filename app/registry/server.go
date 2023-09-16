@@ -24,7 +24,8 @@ func RegisterServer(e *echo.Echo, s3cli *s3.Client) error {
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: "${method} ${uri} ${status} ${error}\n",
 	}))
-	e.GET("/pprof/:id/", r.GetPProf)
+	e.Pre(middleware.RemoveTrailingSlash())
+	e.GET("/pprof/:id", r.GetPProf)
 	e.GET("/pprof/:id/:key", r.GetPProf)
 	e.POST("/pprof/register", r.RegisterPProf)
 	e.GET("/health", r.Health)
@@ -62,7 +63,7 @@ func RegisterMinio() (*s3.Client, error) {
 func RegisterS3() (*s3.Client, error) {
 	ctx := context.Background()
 	endpoint := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
-		return aws.Endpoint{}, nil
+		return aws.Endpoint{}, &aws.EndpointNotFoundError{}
 	})
 	// https://zenn.dev/papu_nika/articles/b8efdef1c87f65
 	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion("ap-northeast-1"), config.WithEndpointResolverWithOptions(endpoint))

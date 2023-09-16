@@ -46,6 +46,7 @@ func (s ObjectStorage) GetObjectToTmp(ctx context.Context, key string) (string, 
 	if err != nil {
 		return "", eu.Wrap(err)
 	}
+	defer newFile.Close()
 	if _, err := io.Copy(newFile, obj.Body); err != nil {
 		return "", eu.Wrap(err)
 	}
@@ -59,6 +60,7 @@ func (s ObjectStorage) UploadObject(ctx context.Context, key string, b []byte) e
 	if err != nil {
 		return eu.Wrap(err)
 	}
+	defer newFile.Close()
 	if _, err := io.Copy(newFile, bytes.NewReader(b)); err != nil {
 		return eu.Wrap(err)
 	}

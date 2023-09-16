@@ -10,6 +10,18 @@ provider:
   apiName: ${self:service}-${self:provider.stage}
   environment:
     BUCKET_NAME: shiba6v-pprofpage-${self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: 's3:ListBucket'
+          Resource: '*'
+        - Effect: Allow
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+          Resource:
+            - 'arn:aws:s3:::shiba6v-pprofpage-${self:provider.stage}/*'
 
 functions:
   PProfPage:
