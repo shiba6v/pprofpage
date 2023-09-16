@@ -13,6 +13,7 @@ generate_pprof:
 
 .PHONY: register_test
 register_test:
+	ls -hl tmp/sample.pprof
 	curl -X POST -F file=@tmp/sample.pprof ${PPROFPAGE_DEV_URL}/pprof/register
 
 # https://aws.amazon.com/jp/blogs/compute/migrating-aws-lambda-functions-from-the-go1-x-runtime-to-the-custom-runtime-on-amazon-linux-2/

@@ -9,7 +9,8 @@ provider:
   region: ap-northeast-1
   apiName: ${self:service}-${self:provider.stage}
   environment:
-    BUCKET_NAME: shiba6v-pprofpage-${self:provider.stage}
+    BUCKET_NAME: ${self:custom.bucketName}
+    HOME: /home/me
   iam:
     role:
       statements:
@@ -21,7 +22,7 @@ provider:
             - 's3:GetObject'
             - 's3:PutObject'
           Resource:
-            - 'arn:aws:s3:::shiba6v-pprofpage-${self:provider.stage}/*'
+            - 'arn:aws:s3:::${self:custom.bucketName}/*'
 
 functions:
   PProfPage:
@@ -33,3 +34,12 @@ functions:
       - http:
           path: /{proxy+}
           method: any
+
+custom:
+  bucketName: shiba6v-pprofpage-${self:provider.stage}
+  apigwBinary:
+    types:
+      - multipart/form-data    # ← バイナリメディアタイプの指定
+
+plugins:
+  - serverless-apigw-binary 

@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "serverless-apigw-binary": "^0.4.4"
+  }
+}
