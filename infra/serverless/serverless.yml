@@ -3,7 +3,7 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  stage: dev
+  stage: ${opt:stage}
   runtime: provided.al2
   architecture: arm64
   region: ap-northeast-1

@@ -1,8 +1,8 @@
 /tmp
 gocache
 /infra/local/minio/data/*
-/infra/serverless-dev/bootstrap
-/infra/serverless-dev/node_modules
+/infra/serverless/bootstrap
+/infra/serverless/node_modules
 !.gitkeep
 .env
 .serverless

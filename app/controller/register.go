@@ -32,7 +32,5 @@ func (r Controller) RegisterPProf(c echo.Context) error {
 	if err := r.storage.UploadObject(c.Request().Context(), id, b); err != nil {
 		return eu.Wrap(err)
 	}
-	return c.JSON(http.StatusOK, RegisterPProfResponse{
-		Path: fmt.Sprintf("/pprof/%s", id),
-	})
+	return c.String(http.StatusOK, fmt.Sprintf("/pprof/%s/flamegraphold", id))
 }
