@@ -29,7 +29,7 @@ functions:
     handler: bootstrap
     url: true
     timeout: 10
-    memorySize: 128
+    memorySize: 512
     events:
       - http:
           path: /{proxy+}
